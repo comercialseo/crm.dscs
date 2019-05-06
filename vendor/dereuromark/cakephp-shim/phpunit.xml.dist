@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	colors="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	bootstrap="tests/bootstrap.php"
+	>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="apc.enable_cli" value="1"/>
+		<!-- E_ALL & ~E_USER_DEPRECATED (16383)-->
+		<!-- E_ALL (32767) -->
+		<ini name="error_reporting" value="16383"/>
+	</php>
+
+	<!-- Add any additional test suites you want to run here -->
+	<testsuites>
+		<testsuite name="shim">
+			<directory>tests/TestCase/</directory>
+		</testsuite>
+		<!-- Add plugin test suites here. -->
+	</testsuites>
+
+	<!-- Setup a listener for fixtures -->
+	<listeners>
+		<listener
+		class="Cake\TestSuite\Fixture\FixtureInjector">
+			<arguments>
+				<object class="Cake\TestSuite\Fixture\FixtureManager" />
+			</arguments>
+		</listener>
+	</listeners>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">src/</directory>
+		</whitelist>
+	</filter>
+
+</phpunit>

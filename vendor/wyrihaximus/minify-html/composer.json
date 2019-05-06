@@ -1,0 +1,43 @@
+{
+    "name": "wyrihaximus/minify-html",
+    "description": "Html minificater for CakePHP3",
+    "type":"cakephp-plugin",
+    "license": "MIT",
+    "keywords": [
+        "html",
+        "compress",
+        "minify",
+        "cakephp",
+        "cakephp3"
+    ],
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.19",
+        "cakephp/cakephp": "~3.0",
+        "wyrihaximus/html-compress": "~1.0"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "~0.6",
+        "phpunit/phpunit": "~4.0",
+        "vectorface/dunit": "~2.0",
+        "phake/phake": "~1.0",
+        "squizlabs/php_codesniffer": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WyriHaximus\\MinifyHtml\\": "src/"
+        },
+        "files": ["src/functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WyriHaximus\\CakePHP\\Tests\\MinifyHtml\\View\\Helper\\": "tests/"
+        }
+    }
+}

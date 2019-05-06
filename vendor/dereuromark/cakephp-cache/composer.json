@@ -1,0 +1,35 @@
+{
+	"name": "dereuromark/cakephp-cache",
+	"description": "Cache plugin for CakePHP",
+	"type": "cakephp-plugin",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.6",
+		"cakephp/cakephp": "^3.5"
+	},
+	"require-dev": {
+		"dereuromark/cakephp-tools": "^1.2",
+		"fig-r/psr2r-sniffer": "dev-master",
+		"phpunit/phpunit": "^5.7.14|^6.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Cache\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Cache\\Test\\": "tests/",
+			"App\\": "tests/test_app/src/"
+		}
+	},
+	"scripts": {
+		"test": "php phpunit.phar",
+		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.20.phar && mv phpunit-5.7.20.phar phpunit.phar || true",
+		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
+		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 1 src/",
+		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan && mv composer.backup composer.json",
+		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-cache/vendor/,/tmp/,/logs/ --extensions=php ./",
+		"cs-fix": "phpcbf --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-cache/vendor/,/tmp/,/logs/ --extensions=php ./"
+	}
+}

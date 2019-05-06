@@ -1,0 +1,31 @@
+{
+    "name": "mirko-pagliai/cakephp-database-backup",
+    "description": "Database Backup plugin for CakePHP",
+    "homepage": "https://github.com/mirko-pagliai/cakephp-database-backup",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "authors": [{
+        "name": "Mirko Pagliai",
+        "email": "mirko.pagliai@gmail.com"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "cakephp/cakephp": "^3.2",
+        "mirko-pagliai/php-tools": "^1.1"
+    },
+    "require-dev": {
+        "cakephp/cakephp-codesniffer": "^3.0",
+        "phpunit/phpunit": "^5.7|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DatabaseBackup\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests",
+            "DatabaseBackup\\Test\\": "tests"
+        }
+    }
+}

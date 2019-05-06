@@ -1,0 +1,15 @@
+parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/bootstrap.php
+	excludes_analyse:
+		- %rootDir%/../../../src/TestSuite/*
+		- %rootDir%/../../../src/View/Helper/TreeHelper
+		- %rootDir%/../../../src/Utility/Mime
+	ignoreErrors:
+		- '#Access to an undefined property .+Table::\$belongsTo#'
+		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
+		- '#Access to protected property .+ServerRequest::\$.+#'
+
+services:
+    -
+        class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension

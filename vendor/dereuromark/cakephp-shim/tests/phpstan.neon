@@ -1,0 +1,8 @@
+parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/bootstrap.php
+		- %rootDir%/../../../tests/shim.php
+	excludes_analyse:
+		- %rootDir%/../../../src/TestSuite/*
+	ignoreErrors:
+		- '#Variable \$_SESSION in isset\(\) always exists and is not nullable.#'

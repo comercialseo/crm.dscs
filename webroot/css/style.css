@@ -1,0 +1,66 @@
+/* GENÉRICOS */
+body {
+    font-size: 14.5px;
+    color: #555;
+    font-family: 'Rubik', sans-serif;
+}
+.x_title h1,
+.x_title h2,
+.x_title h3,
+.x_title h4,
+.x_title h5 {
+    font-family: 'Russo One', sans-serif!important;
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #3f536730;
+}
+.view p {
+	text-align: left;
+    color: #555;
+}
+.item.bad .alert {
+    font-size: 13px;
+}
+.error-message {
+	color: #d33c44;
+    font-weight: 600;
+    background-color: yellow;
+    padding-left: 20px;
+}
+#ontime-total {
+    background-color: #3f5367;
+    color: #c3c3c3;
+    font-weight: bold;
+    padding: 5px 5px 5px 5px;
+    display: block;
+    width: 50%;
+    margin-left: 25.9%;
+    /* float: right; */
+    clear: both;
+}
+/* FORMULARIOS */
+.form-fecha {
+    width: 33.3%!important;
+    float: left!important;
+}
+/* TABLAS */
+.sorting_1 {
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #2a435d!important;
+}
+.sorting_1 a {
+    color: #2a435d!important;
+}
+/* MENÚS */
+.nav.side-menu>li>a {
+    margin-bottom: 1px!important;
+    border-bottom: 1px solid white!important;
+}
+.menu_section {
+    margin-bottom: 15px!important;
+}
+/* COMODINES */
+.lst-sty-n { list-style: none; }
+.ds-flex { display: flex; }
+.pdd-laterales-10 { padding-right: 10px; padding-left: 10px; }
