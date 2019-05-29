@@ -41,7 +41,7 @@ class EquiposController extends AppController
         ($usuarioActual['us_rol'] == 'sa') || ($usuarioActual['us_rol'] == 'ad') 
     ))
     {
-        if(in_array($this->request->getParam('action'), ['index', 'ver', 'editar', 'crear', 'borrar', 'quitar']))
+        if(in_array($this->request->getParam('action'), ['index', 'ver', 'editar', 'crear', 'borrar', 'quitar', 'asignar']))
         {
             return true;
         }
@@ -120,15 +120,13 @@ class EquiposController extends AppController
     public function crear()
     {
         $this->loadModel('AppEquipos');
-
         //debug($this->request->getData());
         $appEquipo = $this->AppEquipos->newEntity();
         if ($this->request->is('post')) {
             $appEquipo = $this->AppEquipos->patchEntity($appEquipo, $this->request->getData());
-            $appEquipo->app_usuarios_id = $this->request->data['app_usuarios_id'];
+            //$appEquipo->app_usuarios_id = $this->request->data['app_usuarios_id'];
             if ($this->AppEquipos->save($appEquipo)) {
                 $this->Flash->success(__('El Equipo se ha creado con éxito.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('No se ha podido crear el nuevo Equipo. Si el fallo persiste por favor, ponte en contacto con los administradores del sistema.'));
@@ -137,17 +135,21 @@ class EquiposController extends AppController
         $appUsuarios = $this->AppEquipos->AppUsuarios->find('list', [
                                                 'keyField' => 'id',
                                                 'valueField' => 'us_usuario'
-                                                ]);
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
 
         $appUsuariosLeader = $this->AppEquipos->AppUsuarios->find('list', [
                                                 'keyField' => 'us_usuario',
                                                 'valueField' => 'us_usuario'
-                                                ]);
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
+
 
         $appDepartamentos = $this->AppEquipos->AppDepartamentos->find('list', [
                                                 'keyField' => 'id',
                                                 'valueField' => 'dp_departamento'
                                                 ]);
+                                                
 
         $this->set(compact('appEquipo', 'appUsuarios', 'appUsuariosLeader', 'appDepartamentos'));
 
@@ -181,12 +183,14 @@ class EquiposController extends AppController
                                                 'keyField' => 'id',
                                                 'valueField' => 'us_usuario',
                                                 'spacer' => '˓→ '
-                                                ]);
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
 
         $appUsuariosLeader = $this->AppEquipos->AppUsuarios->find('list', [
                                                 'keyField' => 'us_usuario',
                                                 'valueField' => 'us_usuario'
-                                                ]);
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
 
         $appDepartamentos = $this->AppEquipos->AppDepartamentos->find('list', [
                                                 'keyField' => 'id',
@@ -226,6 +230,44 @@ class EquiposController extends AppController
 
         $this->loadComponent('Logging.Log');
         $this->Log->info('RegBrouser', '[Equipos_Quitar]', ['idEq' => $idEq, 'idUs' => $idUs], ['ip' => true, 'referer' => true]);
+    }
+
+    /**
+     * Asignar method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
+    public function asignar($id = null)
+    {
+        $this->loadModel('AppEquipos');
+        //debug($this->request->getData());
+        $appEquipo = $this->AppEquipos->newEntity();
+        if ($this->request->is('post')) {
+            $appEquipo = $this->AppEquipos->patchEntity($appEquipo, $this->request->getData());
+            //$appEquipo->app_usuarios_id      = $this->request->data['app_usuarios_id'];
+            $appEquipo->app_departamentos_id = $id;
+            if ($this->AppEquipos->save($appEquipo)) {
+                $this->Flash->success(__('El Equipo se ha creado con éxito.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('No se ha podido crear el nuevo Equipo. Si el fallo persiste por favor, ponte en contacto con los administradores del sistema.'));
+        }
+
+        $appUsuarios = $this->AppEquipos->AppUsuarios->find('list', [
+                                                'keyField' => 'id',
+                                                'valueField' => 'us_usuario'
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
+
+        $appUsuariosLeader = $this->AppEquipos->AppUsuarios->find('list', [
+                                                'keyField' => 'us_usuario',
+                                                'valueField' => 'us_usuario'
+                                                ])
+                                                ->where(['us_rol !=' => 'cl']);
+        $this->set(compact('appEquipo', 'appUsuarios', 'appUsuariosLeader'));
+
+        $this->loadComponent('Logging.Log');
+        $this->Log->info('RegBrouser', '[Equipos_Crear]', [], ['ip' => true, 'referer' => true]);
     }
 
     /**

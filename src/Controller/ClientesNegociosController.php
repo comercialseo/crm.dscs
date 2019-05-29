@@ -90,7 +90,6 @@ class ClientesNegociosController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $appClientesNegocio = $this->AppClientesNegocios->patchEntity($appClientesNegocio, $this->request->getData());
             if ($this->AppClientesNegocios->save($appClientesNegocio)) {
-
                 $this->loadComponent('Logging.Log');
                 $this->Log->info('RegBrouser', '[ClientesNegocios_Crear]', [], ['ip' => true, 'referer' => true]);
 
@@ -132,7 +131,7 @@ class ClientesNegociosController extends AppController
     {
         $this->loadModel('AppClientesNegocios');
         $appClientesNegocio = $this->AppClientesNegocios->get($id, [
-            'contain' => ['AppClientesNegociosSectores', 'AppClientes']
+            'contain' => ['AppClientesNegociosSectores', 'AppClientes', 'AppFacturas']
         ]);
 
         $this->set('appClientesNegocio', $appClientesNegocio);
@@ -150,7 +149,7 @@ class ClientesNegociosController extends AppController
     {
         $this->loadModel('AppClientesNegocios');
         $appClientesNegocio = $this->AppClientesNegocios->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $appClientesNegocio = $this->AppClientesNegocios->patchEntity($appClientesNegocio, $this->request->getData());
             if ($this->AppClientesNegocios->save($appClientesNegocio)) {
                 $this->Flash->success(__('El Negocio de Cliente se ha creado con éxito.'));

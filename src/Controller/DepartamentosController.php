@@ -83,7 +83,6 @@ class DepartamentosController extends AppController
     {
         $this->loadModel('AppDepartamentos');
         $appDepartamentos = $this->AppDepartamentos->find('all');
-
         $appDepartamento = $this->AppDepartamentos->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $appDepartamento = $this->AppDepartamentos->patchEntity($appDepartamento, $this->request->getData());
@@ -119,7 +118,7 @@ class DepartamentosController extends AppController
     {
         $this->loadModel('AppDepartamentos');
         $appDepartamento = $this->AppDepartamentos->get($id, [
-            'contain' => []
+            'contain' => ['AppEquipos', 'AppProductos']
         ]);
 
         $this->set('appDepartamento', $appDepartamento);

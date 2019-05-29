@@ -89,7 +89,7 @@ class GastosController extends AppController
         $this->set(compact('appGastos'));
 
         $appGastoForm = $this->AppGastos->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $appGastoForm = $this->AppGastos->patchEntity($appGastoForm, $this->request->getData());
             if(!empty($this->request->data['ga_factura']['name']))
             {

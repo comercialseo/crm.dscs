@@ -90,18 +90,29 @@ class ClientesNegociosSectoresController extends AppController
         $appClientesNegociosSectore = $this->AppClientesNegociosSectores->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $appClientesNegociosSectore = $this->AppClientesNegociosSectores->patchEntity($appClientesNegociosSectore, $this->request->getData());
-            if ($this->AppClientesNegociosSectores->save($appClientesNegociosSectore)) {
 
-                $this->loadComponent('Logging.Log');
-                $this->Log->info('RegBrouser', '[ClientesNegociosSectores_Crear]', [], ['ip' => true, 'referer' => true]);
+            $idClientesNegociosSectores  = $this->request->data['nt_sector'];
+            $appClientesNegociosSectoresCount = $this->AppClientesNegociosSectores->find('all', [
+                'conditions' => ['nt_sector' => $idClientesNegociosSectores]
+            ]);
+            $numberClientesNegociosSectoresCount = $appClientesNegociosSectoresCount->count();
+            if($numberClientesNegociosSectoresCount == 0)
+            {
+                if ($this->AppClientesNegociosSectores->save($appClientesNegociosSectore)) {
 
-                $this->Flash->success(__('El Sector de Negocios de Clientes se ha creado con éxito.'));
+                    $this->loadComponent('Logging.Log');
+                    $this->Log->info('RegBrouser', '[ClientesNegociosSectores_Crear]', [], ['ip' => true, 'referer' => true]);
+
+                    $this->Flash->success(__('El Sector de Negocios de Clientes se ha creado con éxito.'));
+                }else {
+                    $this->Flash->error(__('No se ha podido crear el nuevo Sector de Negocios de Clientes. Si el fallo persiste por favor, ponte en contacto con los administradores del sistema.'));
+
+                    $this->loadComponent('Logging.Log');
+                    $this->Log->error('RegBrouser', '[ClientesNegociosSectores_Crear]', [], ['ip' => true, 'referer' => true]);
+                }  
             }else {
-                $this->Flash->error(__('No se ha podido crear el nuevo Sector de Negocios de Clientes. Si el fallo persiste por favor, ponte en contacto con los administradores del sistema.'));
-
-                $this->loadComponent('Logging.Log');
-                $this->Log->error('RegBrouser', '[ClientesNegociosSectores_Crear]', [], ['ip' => true, 'referer' => true]);
-            }            
+                $this->Flash->error(__('Ya existe un Sector de Negocio de Cliente igual al que intentas crear.'));
+            }          
             return $this->redirect(['action' => 'index']);
         }
 
@@ -139,7 +150,7 @@ class ClientesNegociosSectoresController extends AppController
     {
         $this->loadModel('AppClientesNegociosSectores');
         $appClientesNegociosSectore = $this->AppClientesNegociosSectores->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $appClientesNegociosSectore = $this->AppClientesNegociosSectores->patchEntity($appClientesNegociosSectore, $this->request->getData());
             if ($this->AppClientesNegociosSectores->save($appClientesNegociosSectore)) {
                 $this->Flash->success(__('El Sector de Negocios de Clientes se ha creado con éxito.'));

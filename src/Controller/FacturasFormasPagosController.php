@@ -1,15 +1,15 @@
 <?php
 /**
  * =====================================================================
- * Controlador de Facturas de la App
+ * Controlador de Formas de Pago de la App
  * =====================================================================
  * @author    ComercialSEO GrupoAltaEmpresas S.L.
  * @copyright 2019 ComercialSEO Todos los derechos resevados
  * @link      https://www.comercialseo.es Projects
  * @version   CakePHP/CRM.dscs.es v-1.01
  * @since     3.7
- * @property  \App\Model\Table\AppFacturasTable $AppFacturas
- * @method    \App\Model\Entity\AppFactura[]|
+ * @property  \App\Model\Table\AppFacturasFormasPagosTable $AppFacturas
+ * @method    \App\Model\Entity\AppFacturasFormasPago[]|
  * =====================================================================
 */
 namespace App\Controller;
@@ -17,15 +17,14 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 
 /**
- * AppClientes Controller
+ * AppFacturasFormasPagos Controller
  *
- * @property \App\Model\Table\AppClientesTable $AppClientes
  *
- * @method \App\Model\Entity\AppCliente[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\AppFacturasFormasPago[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class FacturasController extends AppController
+class FacturasFormasPagosController extends AppController
 {
-    public function initialize()
+            public function initialize()
     {
         parent::initialize();
     }
@@ -82,28 +81,25 @@ class FacturasController extends AppController
      */
     public function index()
     {
-        $this->loadModel('AppFacturas');
-        $appFacturas = $this->AppFacturas->find('All', [
-            'contain' => ['AppClientesNegocios']
-        ]);
+        $appFacturasFormasPagos = $this->paginate($this->AppFacturasFormasPagos);
 
-        $this->set(compact('appFacturas'));
+        $this->set(compact('appFacturasFormasPagos'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id App Factura id.
+     * @param string|null $id App Facturas Formas Pago id.
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $appFactura = $this->AppFacturas->get($id, [
+        $appFacturasFormasPago = $this->AppFacturasFormasPagos->get($id, [
             'contain' => []
         ]);
 
-        $this->set('appFactura', $appFactura);
+        $this->set('appFacturasFormasPago', $appFacturasFormasPago);
     }
 
     /**
@@ -113,58 +109,58 @@ class FacturasController extends AppController
      */
     public function add()
     {
-        $appFactura = $this->AppFacturas->newEntity();
+        $appFacturasFormasPago = $this->AppFacturasFormasPagos->newEntity();
         if ($this->request->is('post')) {
-            $appFactura = $this->AppFacturas->patchEntity($appFactura, $this->request->getData());
-            if ($this->AppFacturas->save($appFactura)) {
-                $this->Flash->success(__('The app factura has been saved.'));
+            $appFacturasFormasPago = $this->AppFacturasFormasPagos->patchEntity($appFacturasFormasPago, $this->request->getData());
+            if ($this->AppFacturasFormasPagos->save($appFacturasFormasPago)) {
+                $this->Flash->success(__('The app facturas formas pago has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The app factura could not be saved. Please, try again.'));
+            $this->Flash->error(__('The app facturas formas pago could not be saved. Please, try again.'));
         }
-        $this->set(compact('appFactura'));
+        $this->set(compact('appFacturasFormasPago'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id App Factura id.
+     * @param string|null $id App Facturas Formas Pago id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $appFactura = $this->AppFacturas->get($id, [
+        $appFacturasFormasPago = $this->AppFacturasFormasPagos->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $appFactura = $this->AppFacturas->patchEntity($appFactura, $this->request->getData());
-            if ($this->AppFacturas->save($appFactura)) {
-                $this->Flash->success(__('The app factura has been saved.'));
+            $appFacturasFormasPago = $this->AppFacturasFormasPagos->patchEntity($appFacturasFormasPago, $this->request->getData());
+            if ($this->AppFacturasFormasPagos->save($appFacturasFormasPago)) {
+                $this->Flash->success(__('The app facturas formas pago has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The app factura could not be saved. Please, try again.'));
+            $this->Flash->error(__('The app facturas formas pago could not be saved. Please, try again.'));
         }
-        $this->set(compact('appFactura'));
+        $this->set(compact('appFacturasFormasPago'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id App Factura id.
+     * @param string|null $id App Facturas Formas Pago id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $appFactura = $this->AppFacturas->get($id);
-        if ($this->AppFacturas->delete($appFactura)) {
-            $this->Flash->success(__('The app factura has been deleted.'));
+        $appFacturasFormasPago = $this->AppFacturasFormasPagos->get($id);
+        if ($this->AppFacturasFormasPagos->delete($appFacturasFormasPago)) {
+            $this->Flash->success(__('The app facturas formas pago has been deleted.'));
         } else {
-            $this->Flash->error(__('The app factura could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The app facturas formas pago could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
