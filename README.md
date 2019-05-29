@@ -5,6 +5,10 @@
 
 CRM desarrollado por ComercialSEO para su distribución a pymes, empresas y profesionales
 
+The url for testings CRM DsCs [CRM ComercialSEO](http://crm.dscs.es)
+User: Administrador
+Pass: 123456
+
 The web fron developer ComercialSEO [comercialseo/comercialseo](https://www.comercialseo.es)
 
 The crm source can be found here: [comercialseo/comercialseo](https://github.com/comercialseo/crm.dscs)
