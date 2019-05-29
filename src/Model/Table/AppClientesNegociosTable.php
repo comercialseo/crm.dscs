@@ -152,7 +152,7 @@ class AppClientesNegociosTable extends Table
         $validator
             ->scalar('cn_comentario')
             ->requirePresence('cn_comentario', 'create')
-            ->notEmpty('cn_comentario', __('Tienes que rellenar este campo'));
+            ->allowEmpty('cn_comentario');
 
         $validator
             ->dateTime('cn_creacion')

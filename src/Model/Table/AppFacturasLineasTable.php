@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AppProductosTable|\Cake\ORM\Association\BelongsTo $AppProductos
  * @property \App\Model\Table\AppClientesNegociosTable|\Cake\ORM\Association\BelongsTo $AppClientesNegocios
- * @property \App\Model\Table\FlFacturasTable|\Cake\ORM\Association\BelongsTo $FlFacturas
  *
  * @method \App\Model\Entity\AppFacturasLinea get($primaryKey, $options = [])
  * @method \App\Model\Entity\AppFacturasLinea newEntity($data = null, array $options = [])
@@ -64,11 +63,16 @@ class AppFacturasLineasTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->notEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Ya existe un id de línea de factura igual al que estás intentando introducir. Si el fallo persiste por favor, contacta con un administrador del sistema.')]);
 
         $validator
-            ->requirePresence('fl_cantidad', 'create')
-            ->notEmpty('fl_cantidad');
+            ->integer('fl_cantidad')
+            ->notEmpty('fl_cantidad', 'create');
+
+        $validator
+            ->decimal('fl_subtotal')
+            ->notEmpty('fl_subtotal', 'create');
 
         $validator
             ->dateTime('fl_creacion')
@@ -92,7 +96,7 @@ class AppFacturasLineasTable extends Table
     {
         $rules->add($rules->existsIn(['fl_productos_id'], 'AppProductos'));
         $rules->add($rules->existsIn(['fl_negocios_id'], 'AppClientesNegocios'));
-        $rules->add($rules->existsIn(['fl_facturas_id'], 'FlFacturas'));
+        $rules->add($rules->existsIn(['fl_facturas_id'], 'AppFacturas'));
 
         return $rules;
     }

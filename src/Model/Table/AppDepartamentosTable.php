@@ -62,7 +62,8 @@ class AppDepartamentosTable extends Table
             ->minLength('dp_departamento', 3, __('Ha de contener más de 3 caracteres'))
             ->maxLength('dp_departamento', 50, __('No puede contener más de 50 caracteres'))
             ->requirePresence('dp_departamento', 'create')
-            ->notEmpty('dp_departamento', __('Tienes que rellenar este campo...'));
+            ->notEmpty('dp_departamento', __('Tienes que rellenar este campo...'))
+            ->add('dp_departamento', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Ya existe un departamento igual al que estás intentando introducir. Si el fallo persiste por favor, contacta con un administrador del sistema.')]);;
 
         $validator
             ->scalar('dp_descripcion')
@@ -83,5 +84,18 @@ class AppDepartamentosTable extends Table
             ->allowEmpty('dp_modificacion');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['dp_departamento']));
+        return $rules;
     }
 }

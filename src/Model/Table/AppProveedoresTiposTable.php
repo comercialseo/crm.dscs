@@ -57,9 +57,9 @@ class AppProveedoresTiposTable extends Table
 
         $validator
             ->scalar('pt_tipo')
-            ->maxLength('pt_tipo', 50)
+            ->maxLength('pt_tipo', 50, __('No puede contener más de 50 caracteres'))
             ->requirePresence('pt_tipo', 'create')
-            ->notEmpty('pt_tipo')
+            ->notEmpty('pt_tipo', __('Tienes que rellenar este campo'))
             ->add('pt_tipo', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Ya existe un tipo de proveedor igual al que estás intentando introducir. Si el fallo persiste por favor, contacta con un administrador del sistema.')]);
 
         return $validator;

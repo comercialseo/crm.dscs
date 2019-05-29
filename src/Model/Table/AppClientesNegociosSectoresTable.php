@@ -58,7 +58,7 @@ class AppClientesNegociosSectoresTable extends Table
             ->maxLength('nt_sector', 50, __('No puede contener más de 50 caracteres'))
             ->requirePresence('nt_sector', 'create')
             ->notEmpty('nt_sector', __('Tienes que rellenar este campo'))
-            ->add('nt_sector', 'unique', ['rule' => 'validateUnique', 'provider' => 'table'], __('Ya existe un sector de negocio con el mismo nombre, no pueden estar repetidos en la base de datos'));
+             ->add('nt_sector', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Ya existe un sector de negocio cliente igual al que estás intentando introducir. Si el fallo persiste por favor, contacta con un administrador del sistema.')]);
 
         return $validator;
     }

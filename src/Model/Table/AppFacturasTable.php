@@ -50,6 +50,10 @@ class AppFacturasTable extends Table
         $this->hasMany('AppFacturasLineas', [
             'foreignKey' => 'fl_facturas_id',
         ]);
+
+        $this->hasMany('AppFacturasFormasPagos', [
+            'foreignKey' => 'app_forma_pago_id',
+        ]);
     }
 
     /**
@@ -62,43 +66,41 @@ class AppFacturasTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->notEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Ya existe un id de factura igual al que estás intentando introducir. Si el fallo persiste por favor, contacta con un administrador del sistema.')]);
 
         $validator
             ->scalar('fc_codigo')
-            ->maxLength('fc_codigo', 8)
+            ->maxLength('fc_codigo', 50)
             ->allowEmpty('fc_codigo')
             ->add('fc_codigo', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('fc_periodo')
             ->requirePresence('fc_periodo', 'create')
-            ->notEmpty('fc_periodo');
+            ->notEmpty('fc_periodo', __('Tienes que rellenar este campo...'));
 
         $validator
             ->decimal('fc_iva_estipulado')
             ->requirePresence('fc_iva_estipulado', 'create')
-            ->notEmpty('fc_iva_estipulado');
+            ->notEmpty('fc_iva_estipulado', __('Tienes que rellenar este campo...'));
 
         $validator
             ->decimal('fc_iva')
-            ->requirePresence('fc_iva', 'create')
-            ->notEmpty('fc_iva');
+            ->allowEmpty('fc_iva');
 
         $validator
             ->decimal('fc_irpf_estipulado')
             ->requirePresence('fc_irpf_estipulado', 'create')
-            ->notEmpty('fc_irpf_estipulado');
+            ->notEmpty('fc_irpf_estipulado', __('Tienes que rellenar este campo...'));
 
         $validator
             ->decimal('fc_irpf')
-            ->requirePresence('fc_irpf', 'create')
-            ->notEmpty('fc_irpf');
+            ->allowEmpty('fc_irpf');
 
         $validator
             ->decimal('fc_base_imponible')
-            ->requirePresence('fc_base_imponible', 'create')
-            ->notEmpty('fc_base_imponible');
+            ->allowEmpty('fc_base_imponible');
 
         $validator
             ->decimal('fc_descuento')
@@ -106,8 +108,7 @@ class AppFacturasTable extends Table
 
         $validator
             ->decimal('fc_total')
-            ->requirePresence('fc_total', 'create')
-            ->notEmpty('fc_total');
+            ->allowEmpty('fc_total');
 
         $validator
             ->boolean('fc_entregada')
@@ -126,7 +127,7 @@ class AppFacturasTable extends Table
         $validator
             ->date('fc_fecha_facturacion')
             ->requirePresence('fc_fecha_facturacion', 'create')
-            ->notEmpty('fc_fecha_facturacion');
+            ->notEmpty('fc_fecha_facturacion', __('Tienes que rellenar este campo...'));
 
         $validator
             ->dateTime('fc_creacion')
@@ -151,6 +152,7 @@ class AppFacturasTable extends Table
         $rules->add($rules->isUnique(['fc_codigo']));
         $rules->add($rules->existsIn(['fc_app_negocios_id'], 'AppClientesNegocios'));
         $rules->add($rules->existsIn(['fc_app_usuarios_id'], 'AppUsuarios'));
+        $rules->add($rules->existsIn(['app_forma_pago_id'], 'AppFacturasFormasPagos'));
 
         return $rules;
     }
